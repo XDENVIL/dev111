@@ -7,7 +7,7 @@ bot = Bot(
     API_ID,
     API_HASH,
     bot_token=BOT_TOKEN,
-    plugins=videoplayer.py,
+    plugins=dict(root="bot"),
 )
 
 bot.start()
