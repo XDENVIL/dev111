@@ -1,8 +1,8 @@
-from pyrogram import Client as Bot
+from pyrogram import Client, idle
 from config import API_ID, API_HASH, BOT_TOKEN
 from player.videoplayer import app
 
-bot = Bot(
+bot = Client(
     ":memory:",
     API_ID,
     API_HASH,
@@ -11,3 +11,4 @@ bot = Bot(
 )
 
 bot.start()
+idle()
