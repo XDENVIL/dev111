@@ -10,5 +10,4 @@ bot = Bot(
     plugins=dict(root="player"),
 )
 
-await bot.start()
-await app.start()
+bot.start()
