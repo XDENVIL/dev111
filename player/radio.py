@@ -69,12 +69,16 @@ async def stream(client, m: Message):
 
     # Starting Radio on Group Call
     chat_id = m.chat.id    
-    await radiostrt.edit(f'`📻 Radio is Starting...`')
-    await asyncio.sleep(3)
-    group_call = GroupCall(app, input_filename, path_to_log_file='')
-    await group_call.start(chat_id)
-    RADIO_CALL[chat_id] = group_call
-    await radiostrt.edit(f'📻 Started **[Live Streaming]({query})** in `{chat_id}`', disable_web_page_preview=True)
+    if chat_id in RADIO_CALL:
+        await asyncio.sleep(1)
+        await radiostrt.edit(f'📻 Started **[Live Streaming]({query})** in `{chat_id}`', disable_web_page_preview=True)
+    else:
+        await radiostrt.edit(f'`📻 Radio is Starting...`')
+        await asyncio.sleep(3)
+        group_call = GroupCall(app, input_filename, path_to_log_file='')
+        await group_call.start(chat_id)
+        RADIO_CALL[chat_id] = group_call
+        await radiostrt.edit(f'📻 Started **[Live Streaming]({query})** in `{chat_id}`', disable_web_page_preview=True)
     
         
 @Client.on_message(filters.command("stop"))
@@ -90,6 +94,7 @@ async def stopradio(client, m: Message):
             print(e)
     if chat_id in RADIO_CALL:
         await RADIO_CALL[chat_id].stop()
+        RADIO_CALL.pop(chat_id)
         await smsg.edit(f'**⏹ Stopped Streaming!**')
     else:
         await smsg.edit(f'`Nothing is Streaming!`')
