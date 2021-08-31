@@ -86,7 +86,7 @@ async def stream(client, m: Message):
 async def stopradio(client, m: Message):
     chat_id = m.chat.id
     smsg = await m.reply_text(f'⏱️ Stopping...')
-    process = FFMPEG_PROCESSES.get(message.chat.id)
+    process = FFMPEG_PROCESSES.get(m.chat.id)
     if process:
         try:
             process.send_signal(SIGINT)
