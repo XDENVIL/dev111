@@ -3,7 +3,7 @@ import asyncio
 import re
 import subprocess
 import ffmpeg
-from pytgcalls import GroupCallFactory
+from pytgcalls import GroupCall
 from pyrogram import Client, filters
 from pyrogram.types import Message
 from signal import SIGINT
@@ -11,7 +11,6 @@ from youtube_dl import YoutubeDL
 from config import API_ID, API_HASH, SESSION_NAME
 
 app = Client(SESSION_NAME, API_ID, API_HASH)
-group_call_factory = GroupCallFactory(app, GroupCallFactory.MTPROTO_CLIENT_TYPE.PYROGRAM)
 ydl_opts = {
     "geo_bypass": True,
     "geo_bypass_country": "IN",
@@ -76,7 +75,7 @@ async def stream(client, m: Message):
     else:
         await radiostrt.edit(f'`📻 Radio is Starting...`')
         await asyncio.sleep(3)
-        group_call = group_call_factory.get_file_group_call(f'radio-{m.chat.id}.raw')
+        group_call = GroupCall(app, input_filename, path_to_log_file='')
         await group_call.start(chat_id)
         RADIO_CALL[chat_id] = group_call
         await radiostrt.edit(f'📻 Started **[Live Streaming]({query})** in `{chat_id}`', disable_web_page_preview=True)
