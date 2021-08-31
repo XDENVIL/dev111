@@ -82,7 +82,7 @@ async def stream(client, m: Message):
         await radiostrt.edit(f'📻 Started **[Live Streaming]({query})** in `{chat_id}`', disable_web_page_preview=True)
     
         
-@Client.on_message(filters.command("stopradio"))
+@Client.on_message(filters.command("stop"))
 async def stopradio(client, m: Message):
     chat_id = m.chat.id
     smsg = await m.reply_text(f'⏱️ Stopping...')
